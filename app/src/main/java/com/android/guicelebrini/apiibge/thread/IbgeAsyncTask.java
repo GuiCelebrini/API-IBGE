@@ -3,6 +3,8 @@ package com.android.guicelebrini.apiibge.thread;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.android.guicelebrini.apiibge.model.City;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -46,9 +48,9 @@ public class IbgeAsyncTask extends AsyncTask<String, Void, String> {
 
 
         } catch (MalformedURLException e) {
-            Log.i("Resultado", "doInBackground: " + e.getMessage());
+            Log.e("Resultado", "doInBackground: " + e.getMessage());
         } catch (IOException e) {
-            Log.i("Resultado", "doInBackground: " + e.getMessage());
+            Log.e("Resultado", "doInBackground: " + e.getMessage());
         }
 
 
@@ -59,8 +61,13 @@ public class IbgeAsyncTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
+        String objectResponse = "Não recuperou a cidade";
+
         try {
             JSONObject object = new JSONObject(s);
+            City myCity = new City(object.getString("id"), object.getString("nome"));
+            Log.i("Cidade", myCity.toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
