@@ -22,9 +22,10 @@ public class MainActivity extends AppCompatActivity {
         buttonGetApi.setOnClickListener(view -> {
             IbgeAsyncTask task = new IbgeAsyncTask();
 
-            String urlApi = "https://servicodados.ibge.gov.br/api/v1/localidades/estados";
+            String urlCitiesInRj = "https://servicodados.ibge.gov.br/api/v1/localidades/estados";
+            String urlCity = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios/3306156";
 
-            task.execute(urlApi);
+            task.execute(urlCity);
 
         });
 
