@@ -1,12 +1,13 @@
-package com.android.guicelebrini.apiibge;
+package com.android.guicelebrini.apiibge.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.android.guicelebrini.apiibge.R;
+import com.android.guicelebrini.apiibge.thread.IbgeAsyncTask;
 
 public class MainActivity extends AppCompatActivity {
 

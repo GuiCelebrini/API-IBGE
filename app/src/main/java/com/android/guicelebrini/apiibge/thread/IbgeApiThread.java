@@ -1,4 +1,4 @@
-package com.android.guicelebrini.apiibge;
+package com.android.guicelebrini.apiibge.thread;
 
 import android.app.Activity;
 import android.content.Context;

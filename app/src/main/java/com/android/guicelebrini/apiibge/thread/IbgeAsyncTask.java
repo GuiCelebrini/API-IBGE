@@ -1,7 +1,10 @@
-package com.android.guicelebrini.apiibge;
+package com.android.guicelebrini.apiibge.thread;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,6 +58,12 @@ public class IbgeAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+
+        try {
+            JSONObject object = new JSONObject(s);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         Log.i("Resultado", "onPostExecute: " + s);
     }
