@@ -26,8 +26,6 @@ public class IbgeApiThread extends Thread {
             ((Activity)context).runOnUiThread(new Runnable() {
                 public void run() {
 
-                    Button activityButton = ((Activity) context).findViewById(R.id.bt_start);
-                    activityButton.setText("Contador " + i);
                 }
             });
 
