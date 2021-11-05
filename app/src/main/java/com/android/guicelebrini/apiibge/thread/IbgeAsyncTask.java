@@ -61,12 +61,10 @@ public class IbgeAsyncTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        String objectResponse = "Não recuperou a cidade";
-
         try {
             JSONObject object = new JSONObject(s);
-            City myCity = new City(object.getString("id"), object.getString("nome"));
-            Log.i("Cidade", myCity.toString());
+            /*City myCity = new City(object.getString("id"), object.getString("nome"));
+            Log.i("Cidade", myCity.toString());*/
 
         } catch (JSONException e) {
             e.printStackTrace();
