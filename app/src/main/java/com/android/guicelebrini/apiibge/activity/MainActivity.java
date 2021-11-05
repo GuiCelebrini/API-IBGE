@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.guicelebrini.apiibge.R;
 import com.android.guicelebrini.apiibge.api.LocationService;
@@ -56,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void getCityRetrofit(){
 
+        String varreSaiId = "3306156";
+
         LocationService locationService = retrofit.create(LocationService.class);
-        Call<City> cityCall = locationService.getCity();
+        Call<City> cityCall = locationService.getCity(varreSaiId);
 
         cityCall.enqueue(new Callback<City>() {
             @Override
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<City> call, Throwable t) {
-
+                Toast.makeText(getApplicationContext(), "Deu merda", Toast.LENGTH_SHORT).show();
             }
         });
 
