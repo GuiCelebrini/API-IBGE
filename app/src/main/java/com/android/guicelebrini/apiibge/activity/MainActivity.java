@@ -3,6 +3,7 @@ package com.android.guicelebrini.apiibge.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -10,10 +11,13 @@ import android.widget.Toast;
 import com.android.guicelebrini.apiibge.R;
 import com.android.guicelebrini.apiibge.api.LocationService;
 import com.android.guicelebrini.apiibge.model.City;
+import com.android.guicelebrini.apiibge.model.State;
 import com.android.guicelebrini.apiibge.thread.IbgeAsyncTask;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
@@ -28,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView textResult;
 
     private Retrofit retrofit;
+
+    private List<State> statesList = new ArrayList<>();
 
     private String urlCitiesInRj = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/rj/municipios";
     private String urlCity = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios/3306156";
@@ -45,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         buttonGetApi.setOnClickListener(view -> {
-            getCityRetrofit();
+            getStatesRetrofit();
         });
 
     }
@@ -53,6 +59,32 @@ public class MainActivity extends AppCompatActivity {
     private void findViewsById() {
         buttonGetApi = findViewById(R.id.buttonGetApi);
         textResult = findViewById(R.id.textResult);
+    }
+
+    private void getStatesRetrofit(){
+
+        LocationService locationService = retrofit.create(LocationService.class);
+        Call<List<State>> statesCall = locationService.getStates();
+
+        statesCall.enqueue(new Callback<List<State>>() {
+            @Override
+            public void onResponse(Call<List<State>> call, Response<List<State>> response) {
+                statesList = response.body();
+                
+                for (int i = 0; i < statesList.size(); i++){
+
+                    State state = statesList.get(i);
+                    Log.i("Estados", state.toString());
+                    
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<State>> call, Throwable t) {
+
+            }
+        });
+
     }
 
     private void getCityRetrofit(){
