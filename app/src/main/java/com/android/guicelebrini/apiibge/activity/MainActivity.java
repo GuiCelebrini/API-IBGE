@@ -7,7 +7,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.guicelebrini.apiibge.R;
+import com.android.guicelebrini.apiibge.model.City;
 import com.android.guicelebrini.apiibge.thread.IbgeAsyncTask;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.ExecutionException;
 
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         buttonGetApi.setOnClickListener(view -> {
             IbgeAsyncTask task = new IbgeAsyncTask();
 
-            String jsonResponse;
+            String jsonResponse = "";
 
             String statesInBrazil = "https://servicodados.ibge.gov.br/api/v1/localidades/estados";
             String urlCitiesInRj = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/rj/municipios";
@@ -34,12 +37,18 @@ public class MainActivity extends AppCompatActivity {
 
             try {
                 jsonResponse = task.execute(urlCitiesInRj).get();
-                textResult.setText(jsonResponse);
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            Gson gsonCities = new GsonBuilder().setPrettyPrinting().create();
+
+            City[] cities = gsonCities.fromJson(jsonResponse, City[].class);
+
+            textResult.setText(cities[89].toString());
+
 
         });
 
