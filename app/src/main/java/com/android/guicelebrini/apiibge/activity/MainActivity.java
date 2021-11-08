@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onResponse(Call<List<City>> call, Response<List<City>> response) {
                 if (response.isSuccessful()){
                     citiesList = response.body();
+                    //citiesList.add(0, new City("", "Escolha uma cidade"));
 
                     putInSpinnerCities(citiesList);
 
@@ -202,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             getCitiesFromStateRetrofit(selectedState);
         }
 
-        if (parent.getId() == R.id.spinnerCities) {
+        if (parent.getId() == R.id.spinnerCities /*&& position > 0*/) {
             String selectedCity = parent.getItemAtPosition(position).toString();
             Toast.makeText(getApplicationContext(), "Minha cidade é: " + selectedCity, Toast.LENGTH_SHORT).show();
         }
