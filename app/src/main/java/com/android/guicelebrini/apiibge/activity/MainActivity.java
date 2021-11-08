@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -28,7 +30,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Button buttonGetApi;
     private TextView textResult;
@@ -99,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinnerStates.setAdapter(adapter);
+        spinnerStates.setOnItemSelectedListener(this);
 
     }
 
@@ -147,5 +150,16 @@ public class MainActivity extends AppCompatActivity {
         City[] cities = gsonCities.fromJson(jsonResponse, City[].class);
 
         textResult.setText(cities[89].toString());
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        String selected = adapterView.getItemAtPosition(position).toString();
+        Toast.makeText(getApplicationContext(), "Estado selecionado: " + selected, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
