@@ -29,8 +29,9 @@ public class City {
     @Override
     public String toString() {
 
-        String myCity = "Minha cidade é " + nome + " e seu ID é " + id;
+        //String toString = "Minha cidade é " + nome + " e seu ID é " + id;
+        String toString = this.nome;
 
-        return myCity;
+        return toString;
     }
 }

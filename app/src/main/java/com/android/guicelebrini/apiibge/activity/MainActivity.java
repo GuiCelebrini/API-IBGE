@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private Button buttonGetApi;
     private TextView textResult;
-    private Spinner spinnerStates;
+    private Spinner spinnerStates, spinnerCities;
 
     private Retrofit retrofit;
 
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         buttonGetApi = findViewById(R.id.buttonGetApi);
         textResult = findViewById(R.id.textResult);
         spinnerStates = findViewById(R.id.spinnerStates);
+        spinnerCities = findViewById(R.id.spinnerCities);
     }
 
     private void getStatesRetrofit(){
@@ -117,6 +118,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 if (response.isSuccessful()){
                     citiesList = response.body();
 
+                    putInSpinnerCities(citiesList);
+
                     for (int i = 0; i < citiesList.size(); i++){
 
                         City city = citiesList.get(i);
@@ -132,6 +135,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             }
         });
+
+    }
+
+    private void putInSpinnerCities(List<City> citiesList) {
+
+        ArrayAdapter<City> adapter = new ArrayAdapter<City>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, citiesList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCities.setAdapter(adapter);
+        spinnerCities.setOnItemSelectedListener(this);
 
     }
 
@@ -183,11 +195,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        String selectedState = adapterView.getItemAtPosition(position).toString();
-        //Toast.makeText(getApplicationContext(), "Estado selecionado: " + selected, Toast.LENGTH_SHORT).show();
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
 
-        getCitiesFromStateRetrofit(selectedState);
+        if (parent.getId() == R.id.spinnerStates) {
+            String selectedState = parent.getItemAtPosition(position).toString();
+            getCitiesFromStateRetrofit(selectedState);
+        }
+
+        if (parent.getId() == R.id.spinnerCities) {
+            String selectedCity = parent.getItemAtPosition(position).toString();
+            Toast.makeText(getApplicationContext(), "Minha cidade é: " + selectedCity, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
