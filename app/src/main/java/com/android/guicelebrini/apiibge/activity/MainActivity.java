@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Retrofit retrofit;
 
     private List<State> statesList = new ArrayList<>();
+    private List<City> citiesList = new ArrayList<>();
 
     private String urlCitiesInRj = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/rj/municipios";
     private String urlCity = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios/3306156";
@@ -105,6 +106,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    private void getCitiesFromStateRetrofit(String stateInitials){
+
+        LocationService locationService = retrofit.create(LocationService.class);
+        Call<List<City>> citiesCall = locationService.getCitiesFromState(stateInitials);
+
+        citiesCall.enqueue(new Callback<List<City>>() {
+            @Override
+            public void onResponse(Call<List<City>> call, Response<List<City>> response) {
+                if (response.isSuccessful()){
+                    citiesList = response.body();
+
+                    for (int i = 0; i < citiesList.size(); i++){
+
+                        City city = citiesList.get(i);
+                        Log.i("Cidade", city.toString());
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<City>> call, Throwable t) {
+
+            }
+        });
+
+    }
+
     private void getCityRetrofit(){
 
         String varreSaiId = "3306156";
@@ -154,8 +184,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-        String selected = adapterView.getItemAtPosition(position).toString();
-        Toast.makeText(getApplicationContext(), "Estado selecionado: " + selected, Toast.LENGTH_SHORT).show();
+        String selectedState = adapterView.getItemAtPosition(position).toString();
+        //Toast.makeText(getApplicationContext(), "Estado selecionado: " + selected, Toast.LENGTH_SHORT).show();
+
+        getCitiesFromStateRetrofit(selectedState);
     }
 
     @Override

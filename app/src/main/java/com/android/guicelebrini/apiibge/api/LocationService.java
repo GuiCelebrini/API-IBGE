@@ -17,4 +17,7 @@ public interface LocationService {
     @GET("estados/")
     Call<List<State>> getStates();
 
+    @GET("estados/{stateInitials}/municipios")
+    Call<List<City>> getCitiesFromState(@Path("stateInitials") String stateInitials);
+
 }
