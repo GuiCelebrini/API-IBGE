@@ -33,7 +33,8 @@ public class State {
     @Override
     public String toString() {
 
-        String toString = "Meu estado é " + nome + "("+ sigla +") e seu id é " + id;
+        //String toString = "Meu estado é " + nome + "("+ sigla +") e seu id é " + id;
+        String toString = this.sigla;
 
         return toString;
     }

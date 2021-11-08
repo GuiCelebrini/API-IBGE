@@ -25,4 +25,14 @@
         app:layout_constraintEnd_toEndOf="@+id/buttonGetApi"
         app:layout_constraintStart_toStartOf="@+id/buttonGetApi"
         app:layout_constraintTop_toBottomOf="@+id/buttonGetApi" />
+
+    <Spinner
+        android:id="@+id/spinnerStates"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="@+id/buttonGetApi"
+        app:layout_constraintStart_toStartOf="@+id/buttonGetApi"
+        app:layout_constraintTop_toBottomOf="@+id/textResult" />
 </androidx.constraintlayout.widget.ConstraintLayout>

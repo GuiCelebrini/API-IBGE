@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button buttonGetApi;
     private TextView textResult;
+    private Spinner spinnerStates;
 
     private Retrofit retrofit;
 
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private void findViewsById() {
         buttonGetApi = findViewById(R.id.buttonGetApi);
         textResult = findViewById(R.id.textResult);
+        spinnerStates = findViewById(R.id.spinnerStates);
     }
 
     private void getStatesRetrofit(){
@@ -70,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<State>> call, Response<List<State>> response) {
                 statesList = response.body();
+
+                putInSpinnerStates(statesList);
                 
                 for (int i = 0; i < statesList.size(); i++){
 
@@ -84,6 +90,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private void putInSpinnerStates(List<State> statesList){
+
+        ArrayAdapter<State> adapter = new ArrayAdapter<State>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, statesList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinnerStates.setAdapter(adapter);
 
     }
 
