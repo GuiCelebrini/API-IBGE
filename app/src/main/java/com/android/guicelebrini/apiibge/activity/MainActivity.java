@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,7 +35,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private Button buttonGetApi;
     private TextView textResult;
-    private Spinner spinnerStates, spinnerCities;
+    //private Spinner spinnerStates, spinnerCities;
+
+    private AutoCompleteTextView spinnerStates, spinnerCities;
 
     private Retrofit retrofit;
 
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private String urlCitiesInRj = "https://servicodados.ibge.gov.br/api/v1/localidades/estados/rj/municipios";
     private String urlCity = "https://servicodados.ibge.gov.br/api/v1/localidades/municipios/3306156";
     private String urlApiIbge = "https://servicodados.ibge.gov.br/api/v1/localidades/";
+
+    private String state, completeAdress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         buttonGetApi.setOnClickListener(view -> {
             getStatesRetrofit();
+        });
+
+        spinnerStates.setOnItemClickListener((parent, view, position, l) -> {
+            String selectedState = parent.getItemAtPosition(position).toString();
+            getCitiesFromStateRetrofit(selectedState);
+            state = selectedState;
+        });
+
+        spinnerCities.setOnItemClickListener((parent, view, position, l) -> {
+            String selectedCity = parent.getItemAtPosition(position).toString();
+            Toast.makeText(getApplicationContext(), "Minha cidade é: " + selectedCity, Toast.LENGTH_SHORT).show();
+            completeAdress = selectedCity + ", " + state;
+            Log.i("Resultado", completeAdress);
         });
 
     }
@@ -99,11 +117,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void putInSpinnerStates(List<State> statesList){
 
-        ArrayAdapter<State> adapter = new ArrayAdapter<State>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, statesList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<State> adapter = new ArrayAdapter<State>(getApplicationContext(), R.layout.dropdown_item, statesList);
+        adapter.setDropDownViewResource(R.layout.dropdown_item);
 
         spinnerStates.setAdapter(adapter);
-        spinnerStates.setOnItemSelectedListener(this);
+        //spinnerStates.setOnItemSelectedListener(this);
 
     }
 
@@ -141,10 +159,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void putInSpinnerCities(List<City> citiesList) {
 
-        ArrayAdapter<City> adapter = new ArrayAdapter<City>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, citiesList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<City> adapter = new ArrayAdapter<City>(getApplicationContext(), R.layout.dropdown_item, citiesList);
+        adapter.setDropDownViewResource(R.layout.dropdown_item);
         spinnerCities.setAdapter(adapter);
-        spinnerCities.setOnItemSelectedListener(this);
+        //spinnerCities.setOnItemSelectedListener(this);
 
     }
 
@@ -195,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         textResult.setText(cities[89].toString());
     }
 
-    @Override
+   @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long l) {
 
         if (parent.getId() == R.id.spinnerStates) {
@@ -203,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             getCitiesFromStateRetrofit(selectedState);
         }
 
-        if (parent.getId() == R.id.spinnerCities /*&& position > 0*/) {
+        if (parent.getId() == R.id.spinnerCities) {
             String selectedCity = parent.getItemAtPosition(position).toString();
             Toast.makeText(getApplicationContext(), "Minha cidade é: " + selectedCity, Toast.LENGTH_SHORT).show();
         }
